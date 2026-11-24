@@ -1,4 +1,4 @@
-const NOMBRE_CACHE = 'camview-v1';
+const NOMBRE_CACHE = 'camview-v2';
 
 const ARCHIVOS = [
   './',

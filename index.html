@@ -2,8 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1e3a5f">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>CamView</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
@@ -11,26 +13,88 @@
 </head>
 <body>
   <main class="contenedor">
-    <h1>CamView</h1>
-    <p id="estado-camara">Cámara apagada</p>
+    <header class="encabezado">
+      <div class="marca">
+        <img class="logo-app" src="./icons/icon-192.png" alt="" width="40" height="40">
+        <div class="titulo-grupo">
+          <h1>CamView</h1>
+          <p class="subtitulo">Vista previa de cámara</p>
+        </div>
+      </div>
+      <button type="button" id="btn-instalar" class="btn-instalar" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 3v10"></path>
+          <path d="M8 9l4 4 4-4"></path>
+          <path d="M5 17h14v3H5z"></path>
+        </svg>
+        Instalar
+      </button>
+    </header>
 
-    <video id="visor-camara" autoplay playsinline muted></video>
+    <section class="estado" aria-live="polite">
+      <span id="indicador-estado" class="indicador-estado" data-estado="apagada"></span>
+      <p id="estado-camara">Cámara apagada</p>
+    </section>
 
-    <div class="acciones">
-      <button type="button" id="btn-preparar-camara">Solicitar acceso a la cámara</button>
-      <button type="button" id="btn-alternar-camara" disabled>Cambiar cámara</button>
-      <button type="button" id="btn-apagar-camara" disabled>Apagar cámara</button>
-      <button type="button" id="btn-instalar" hidden>Instalar aplicación</button>
-    </div>
+    <section class="visor-caja">
+      <div id="marcador-visor" class="marcador-visor">
+        <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <rect x="8" y="18" width="48" height="34" rx="6"></rect>
+          <path d="M24 18l4-8h8l4 8"></path>
+          <circle cx="32" cy="35" r="10"></circle>
+          <circle cx="32" cy="35" r="5"></circle>
+        </svg>
+        <p>La cámara está apagada</p>
+      </div>
+      <video id="visor-camara" autoplay playsinline muted></video>
+    </section>
 
-    <div id="aviso-permiso" hidden>
+    <section class="acciones">
+      <button type="button" id="btn-preparar-camara" class="btn-principal">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="3" y="7" width="18" height="13" rx="2"></rect>
+          <path d="M9 7l2-3h2l2 3"></path>
+          <circle cx="12" cy="13.5" r="3.5"></circle>
+        </svg>
+        Solicitar acceso a la cámara
+      </button>
+      <div class="acciones-secundarias">
+        <button type="button" id="btn-alternar-camara" class="btn-secundario" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M16 4l3 3-3 3"></path>
+            <path d="M19 7H9a5 5 0 000 10h1"></path>
+            <path d="M8 20l-3-3 3-3"></path>
+            <path d="M5 17h10a5 5 0 000-10h-1"></path>
+          </svg>
+          Cambiar cámara
+        </button>
+        <button type="button" id="btn-apagar-camara" class="btn-apagar" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="8"></circle>
+            <path d="M12 8v8"></path>
+          </svg>
+          Apagar cámara
+        </button>
+      </div>
+    </section>
+
+    <section id="aviso-permiso" class="tarjeta" hidden>
+      <h2>Consentimiento</h2>
       <p>Esta aplicación requiere acceso a tu cámara únicamente para mostrar una vista previa local en pantalla. Ninguna imagen se envía a servidores externos</p>
-      <button type="button" id="btn-confirmar-permiso">Aceptar y encender cámara</button>
-    </div>
+      <div class="tarjeta-acciones">
+        <button type="button" id="btn-confirmar-permiso" class="btn-principal">Aceptar y encender cámara</button>
+        <button type="button" id="btn-cancelar-permiso" class="btn-secundario">Cancelar</button>
+      </div>
+    </section>
 
-    <div id="instrucciones-ios" hidden>
+    <section id="instrucciones-ios" class="tarjeta tarjeta-ios" hidden>
+      <h2>Instalar en iPhone</h2>
       <p>Para instalar en iPhone, pulsa el icono Compartir y selecciona 'Agregar a inicio'.</p>
-    </div>
+    </section>
+
+    <footer class="pie">
+      <p>Vista previa local. No se almacenan imágenes.</p>
+    </footer>
   </main>
   <script src="./app.js"></script>
 </body>

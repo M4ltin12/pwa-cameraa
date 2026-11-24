@@ -3,8 +3,12 @@ let modoCamaraActual = 'environment';
 let solicitando = false;
 let eventoInstalacion = null;
 
-function actualizarMensajeEstado(texto) {
+function actualizarMensajeEstado(texto, tipo) {
   document.getElementById('estado-camara').textContent = texto;
+  const indicador = document.getElementById('indicador-estado');
+  if (indicador) {
+    indicador.dataset.estado = tipo || 'apagada';
+  }
 }
 
 function detenerCamaraActiva() {
@@ -14,6 +18,11 @@ function detenerCamaraActiva() {
   }
   const visorVideo = document.getElementById('visor-camara');
   visorVideo.srcObject = null;
+  visorVideo.classList.remove('activo');
+  const marcador = document.getElementById('marcador-visor');
+  if (marcador) {
+    marcador.hidden = false;
+  }
 }
 
 function actualizarControles() {
@@ -22,11 +31,15 @@ function actualizarControles() {
   document.getElementById('btn-apagar-camara').disabled = !activa || solicitando;
   document.getElementById('btn-preparar-camara').disabled = solicitando;
   document.getElementById('btn-confirmar-permiso').disabled = solicitando;
+  const cancelar = document.getElementById('btn-cancelar-permiso');
+  if (cancelar) {
+    cancelar.disabled = solicitando;
+  }
 }
 
 function iniciarCamara(modo) {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    actualizarMensajeEstado('Este navegador no soporta el acceso a la cámara.');
+    actualizarMensajeEstado('Este navegador no soporta el acceso a la cámara.', 'error');
     return Promise.resolve();
   }
 
@@ -48,6 +61,11 @@ function iniciarCamara(modo) {
       streamActual = stream;
       const visorVideo = document.getElementById('visor-camara');
       visorVideo.srcObject = stream;
+      visorVideo.classList.add('activo');
+      const marcador = document.getElementById('marcador-visor');
+      if (marcador) {
+        marcador.hidden = true;
+      }
 
       const pista = stream.getVideoTracks()[0];
       let etiqueta = modo === 'environment' ? 'Trasera' : 'Frontal';
@@ -65,15 +83,15 @@ function iniciarCamara(modo) {
         }
       }
 
-      actualizarMensajeEstado(`Cámara activa (${etiqueta})`);
+      actualizarMensajeEstado(`Cámara activa (${etiqueta})`, 'activa');
     })
     .catch((error) => {
       if (error.name === 'NotAllowedError') {
-        actualizarMensajeEstado('Permiso denegado. Habilita el acceso a la cámara en los ajustes de tu navegador.');
+        actualizarMensajeEstado('Permiso denegado. Habilita el acceso a la cámara en los ajustes de tu navegador.', 'error');
       } else if (error.name === 'NotFoundError') {
-        actualizarMensajeEstado('No se detectó el sensor de cámara solicitado en este dispositivo.');
+        actualizarMensajeEstado('No se detectó el sensor de cámara solicitado en este dispositivo.', 'error');
       } else {
-        actualizarMensajeEstado(`Error al acceder al hardware: ${error.message}`);
+        actualizarMensajeEstado(`Error al acceder al hardware: ${error.message}`, 'error');
       }
     })
     .finally(() => {
@@ -83,7 +101,9 @@ function iniciarCamara(modo) {
 }
 
 function verificarEntornoIOS() {
-  const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const esIOSClasico = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const esIPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+  const esIOS = esIOSClasico || esIPadOS;
 
   const estaInstalada = window.navigator.standalone === true ||
                         window.matchMedia('(display-mode: standalone)').matches;
@@ -103,6 +123,10 @@ document.getElementById('btn-confirmar-permiso').addEventListener('click', () =>
   iniciarCamara(modoCamaraActual);
 });
 
+document.getElementById('btn-cancelar-permiso').addEventListener('click', () => {
+  document.getElementById('aviso-permiso').hidden = true;
+});
+
 document.getElementById('btn-alternar-camara').addEventListener('click', () => {
   modoCamaraActual = modoCamaraActual === 'environment' ? 'user' : 'environment';
   iniciarCamara(modoCamaraActual);
@@ -110,7 +134,7 @@ document.getElementById('btn-alternar-camara').addEventListener('click', () => {
 
 document.getElementById('btn-apagar-camara').addEventListener('click', () => {
   detenerCamaraActiva();
-  actualizarMensajeEstado('Cámara apagada');
+  actualizarMensajeEstado('Cámara apagada', 'apagada');
   actualizarControles();
 });
 
