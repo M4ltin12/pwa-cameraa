@@ -1,0 +1,119 @@
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #121820;
+  color: #e8eef5;
+}
+
+.contenedor {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 2rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+  color: #6eb3f7;
+  text-align: center;
+}
+
+#estado-camara {
+  margin: 0 0 1rem;
+  text-align: center;
+  color: #a8b4c4;
+  font-size: 0.95rem;
+}
+
+#visor-camara {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background-color: #1a2330;
+  border: 1px solid #3a4a5c;
+  border-radius: 8px;
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #2d6aa0;
+  color: #ffffff;
+}
+
+button:hover:not(:disabled) {
+  background-color: #3a7bb8;
+}
+
+button:disabled {
+  background-color: #3a4555;
+  color: #8a95a5;
+  cursor: not-allowed;
+}
+
+#btn-apagar-camara {
+  background-color: #4a5568;
+}
+
+#btn-apagar-camara:hover:not(:disabled) {
+  background-color: #5a6578;
+}
+
+#aviso-permiso {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #1e2a3a;
+  border: 1px solid #3a4a5c;
+  border-radius: 8px;
+}
+
+#aviso-permiso p {
+  margin: 0 0 0.85rem;
+  color: #c5d0dc;
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+#btn-confirmar-permiso {
+  background-color: #2d8a5e;
+}
+
+#btn-confirmar-permiso:hover:not(:disabled) {
+  background-color: #36a06e;
+}
+
+#instrucciones-ios {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #1e2a3a;
+  border: 1px solid #3a4a5c;
+  border-radius: 8px;
+}
+
+#instrucciones-ios p {
+  margin: 0;
+  color: #c5d0dc;
+  line-height: 1.45;
+  font-size: 0.95rem;
+}

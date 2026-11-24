@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1e3a5f">
+  <title>CamView</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="contenedor">
+    <h1>CamView</h1>
+    <p id="estado-camara">Cámara apagada</p>
+
+    <video id="visor-camara" autoplay playsinline muted></video>
+
+    <div class="acciones">
+      <button type="button" id="btn-preparar-camara">Solicitar acceso a la cámara</button>
+      <button type="button" id="btn-alternar-camara" disabled>Cambiar cámara</button>
+      <button type="button" id="btn-apagar-camara" disabled>Apagar cámara</button>
+      <button type="button" id="btn-instalar" hidden>Instalar aplicación</button>
+    </div>
+
+    <div id="aviso-permiso" hidden>
+      <p>Esta aplicación requiere acceso a tu cámara únicamente para mostrar una vista previa local en pantalla. Ninguna imagen se envía a servidores externos</p>
+      <button type="button" id="btn-confirmar-permiso">Aceptar y encender cámara</button>
+    </div>
+
+    <div id="instrucciones-ios" hidden>
+      <p>Para instalar en iPhone, pulsa el icono Compartir y selecciona 'Agregar a inicio'.</p>
+    </div>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
